@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>B-BOT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center" style="background-color: #045375; color:white">
+    <img src="{% static 'bbot.png' %}" style="width: 300px;">
+  <h1>E-Commerce with B-BOT</h1>
+  <p>Buy your favourite items with 24/7 customer & bargaining services</p> 
+</div>
+  
+<div class="row">
+    <div class="col-md-12" style="text-align: center;">
+        <label style="font-size: 24px;"><b>- Add New Product - </b></label>
+    </div>  
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <form action = "productadded" method="POST" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <div class="col-md-4">
+                <label>Title</label>
+                <input type="text" class="form-control" name="title" required>
+            </div>
+            <div class="col-md-4">
+                <label>Price</label>
+                <input type="number" class="form-control" name="price" required>
+            </div>
+            <div class="col-md-4">
+                <label>Deadline</label>
+                <input type="date" class="form-control" name="deadline" required>
+            </div>
+            <div class="col-md-4">
+                <label>Date</label>
+                <input type="date" class="form-control" name="date" required>
+            </div>
+            <div class="col-md-4">
+                <label>Image</label>
+                <input type="file" name="image" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label>Thresh Price</label>
+                <input type="number" name="thresh" class="form-control" required>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <label>Description</label>
+                <textarea name="description" class="form-control" rows="10" required></textarea>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <button type="submit" class="btn btn-block btn-flat" style="float: right; width: 200px; border: 2px white solid; color: white; background-color:#FEB503; font-weight: bold">Add Product</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="footer" style="background-color: #414242; padding: 10px; margin-top: 20px; color: white; font-size: 18px">
+    <center>B-Bot TEAM | 2020</center>
+</div>
+</body>
+</html>

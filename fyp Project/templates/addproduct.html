@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>B-BOT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center" style="background-color: #045375; color:white">
+    <img src="{% static 'bbot.png' %}" style="width: 300px;">
+  <h1>E-Commerce with B-BOT</h1>
+  <p>Admin Module</p> 
+</div>
+  
+<div class="row">
+    <div class="col-md-12" style="text-align: center;">
+        <label style="font-size: 24px;"><b>- Our Products - </b></label><br>
+        <a class="btn btn-primary" href="addnewproduct">Add New Product</a>
+    </div>  
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <br>
+            <div class="card" style="background-color: #045375; color: white; height: 550px">
+                <div class="card-header">
+                    <img src="{{product.img}}" style="width: 100%; height: 300px">
+                </div>
+                <div class="card-body">
+                    <center>
+                    <h3><b>{{product.title}}</b></h3>
+                    <br>
+                    <p style="font-size: 12px; color: white">{{product.description|slice:":50"}}...</p>
+                    <form action="editproduct" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name='product_id' value="{{product.id}}" class="form-control">
+                        <button type="submit" class="btn btn-block btn-flat" style="width: 80%; border: 2px white solid; color: white; background-color:#FEB503; font-weight: bold">Edit Product</button>
+                    </form>
+                    <br>
+                    </center>
+                </div>
+                <div class="card-footer" style="text-align: center; background-color: #414242; font-size: 18px; padding: 10px">
+                    <b style="color: white">Price: {{product.price}} PKR</b>
+                </div>
+            </div>
+            
+            
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="footer" style="background-color: #414242; padding: 10px; margin-top: 20px; color: white; font-size: 18px">
+    <center>B-Bot TEAM | 2020</center>
+</div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+  border-radius: 20px;
+  border: 2px white solid;
+  background-color: #045375;
+  color: white;
+  width: 200px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 1;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* The popup chat - hidden by default */
+.chat-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  resize: none;
+  min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+</style>
+<script>
+  $(document).on("submit", "#chat_form", function(e){
+    
+    e.preventDefault();
+    var msg = document.getElementById("msg").value;
+    
+    $.ajax({
+      type: "POST",
+      url: "/sendMsg",
+      data:{
+        msg: $("#msg").val(),
+        price: $("#actual_price").val(),
+        thresh: $("#thresh_price").val(),
+        productId: $("#product_id").val(),
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+      },
+      success: function(res){
+        sendMsg();
+        setTimeout(() => {  $("#chat").append('<br><label style="color:white; font-weight: lighter; background-color:#FAA804;width: 70%; float: left; border-radius: 5px; padding: 5px"><b style="color: white">B-Bot: </b> '+res+'</label>');
+      }, 2000);
+         }
+    });
+  });
+  function sendMsg()
+  {
+    var msg = $("#msg").val();
+    $("#chat").append("<br><label style='color: white; font-weight: lighter; background-color: #045375; padding: 5px; width: 70%; border-radius: 5px; float: right'><b style='color: white'>You: </b>"+msg+"</label>");
+    $("#msg").val("");
+  }
+</script>
+</head>
+<body style="padding: 0px;">
+
+    <div class="jumbotron text-center" style="background-color: #045375; color:white; text-align: center">
+        <img src="{% static 'bbot.png' %}" style="width: 300px;">
+      <h1>E-Commerce with B-BOT</h1>
+      <p>Buy your favourite items with 24/7 customer & bargaining services</p> 
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{product.img}}" style="width: 100%;">
+        </div>
+        <div class="col-md-8">
+            <h2><b>{{product.title}}</b></h2>
+            <input type="number" style="display: none" id="actual_price" value="{{product.price}}" />
+            <input type="number" style="display: none" id="thresh_price" value="{{product.thresh}}" />
+            <input type="number" style="display: none" id="product_id" value="{{product.id}}" />
+            
+            <h4><b>Price: {{product.price}}</b></h4>
+            <br>
+            <h6>{{product.description}}</h6>
+        </div>
+    </div>
+
+
+    <button class="open-button" onclick="openForm()" style="background-color: #FAA804;">
+        <img src="{% static 'bbot.png' %}" style="width: 100px; float: left"> <span style="float: right; margin-top: 10px" class="glyphicon glyphicon-triangle-top"></span>
+        </button>
+
+    <div class="chat-popup" id="myForm" style="width: 400px; margin-bottom: 80px; margin-right: 20px; max-height: 400px; overflow:auto; background-color: white">
+   
+        <h3>Chat </h3>
+        <hr>
+        <div class="row">
+          <div class="col-md-12" id="chat">
+            <label style="color:white; font-weight: lighter; background-color:#FAA804;width: 70%; float: left; border-radius: 5px; padding: 5px"><b style="color: white">B-Bot: </b> Bargaining Potal is open 24/7</label>
+          </div>
+        </div>
+        <hr>
+        <form id="chat_form">
+          {% csrf_token %}
+          <input id="msg" class="form-control" style="width: 75%; display: inline-block" placeholder="enter message...">
+          <button type="submit" class="" id="sendMsgBtn" style="border: none; display: inline-block; background-color:#045375; color: white
+          ; font-weight: bold; height: 30px; border-radius: 10px">Send</button>
+        </form>
+        
+        
+ 
+    </div>
+
+    <script>
+    function openForm() {
+    document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+    }
+    </script>
+</div>
+<div class="footer" style="background-color: #414242; padding: 10px; margin-top: 20px; color: white; font-size: 18px">
+    <center>B-Bot TEAM | 2020</center>
+</div>
+</body>
+</html>

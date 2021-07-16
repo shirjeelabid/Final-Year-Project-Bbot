@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>B-BOT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center" style="background-color: #045375; color:white">
+    <img src="{% static 'bbot.png' %}" style="width: 300px;">
+  <h1>E-Commerce with B-BOT</h1>
+  <p>Buy your favourite items with 24/7 customer & bargaining services</p> 
+</div>
+  
+<div class="row">
+    <div class="col-md-12" style="text-align: center;">
+        <label style="font-size: 24px;"><b>- Edit Product - </b></label>
+    </div>  
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <center>
+                <h2>Congratulations!<br><h3>"{{title}}" - Product is updated! </h3></h2>
+                <br>
+                <a class="btn btn-primary" href="addproduct">View Products</a>
+            </center>
+        </div>
+    </div>
+</div>
+<div class="footer" style="background-color: #414242; padding: 10px; margin-top: 20px; color: white; font-size: 18px">
+    <center>B-Bot TEAM | 2020</center>
+</div>
+</body>
+</html>
